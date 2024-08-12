@@ -18,7 +18,7 @@ Add the package as a dependency in your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  your_package_name: ^1.0.0
+  awesome_styles: ^1.0.0
 ```
 
 Then, install the package using the command:
