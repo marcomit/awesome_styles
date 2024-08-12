@@ -1,7 +1,9 @@
 name: awesome_styles
 description: "The best theme manager for Flutter of all time. It's very simple and easy to use."
-version: 0.0.3
-homepage:
+version: 0.0.5
+
+homepage: https://github.com/marcomit
+repository: https://github.com/marcomit/awesome_styles
 
 environment:
   sdk: ^3.5.0
