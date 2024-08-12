@@ -8,20 +8,28 @@ import 'package:flutter/services.dart';
 class Style {
   /// * A class abstraction for a color theme
   static TextTheme texts = TextTheme();
+
   /// * A class abstraction for a color theme
   static ColorTheme colors = ColorTheme();
+
   /// * A class abstraction for a fonts theme
   static Fonts fonts = Fonts();
+
   /// * A class abstraction for a radius theme
   static RadiusTheme radius = RadiusTheme();
+
   /// * A class abstraction for a buttons theme
   static ButtonStyle buttons = const ButtonStyle();
+
   /// * A class abstraction for a theme theme
   static List<dynamic> _theme = [];
+
   /// * A class abstraction for a paddings theme
   static PaddingTheme paddings = PaddingTheme();
+
   /// * A class abstraction for a shadows theme
   static ShadowTheme shadows = ShadowTheme();
+
   /// * A method to initialize the theme with an index (of the theme array in the json file)
   static Future<void> init([int index = 0]) async {
     _theme = jsonDecode(await rootBundle.loadString("assets/theme.json"));
@@ -142,6 +150,7 @@ class ColorTheme {
   Color secondary = Colors.black;
   Color background = Colors.white;
   Color foreground = Colors.black;
+
   /// * A method to initialize the theme
   void init(Map<String, dynamic> colors) {
     primary = (colors['primary'] as String).toColor();
@@ -158,6 +167,7 @@ class RadiusTheme {
   List<double> _small = [];
   List<double> _medium = [];
   List<double> _large = [];
+
   /// * A method to initialize the theme
   void init(Map<String, dynamic> radius) async {
     _small = (radius['small'] as List)
@@ -174,9 +184,11 @@ class RadiusTheme {
   /// * Get the radius of the current device
   BorderRadius small(BuildContext context) =>
       BorderRadius.circular(_small[Style.index(context)]);
+
   /// * Get the radius of the current device
   BorderRadius medium(BuildContext context) =>
       BorderRadius.circular(_medium[Style.index(context)]);
+
   /// * Get the radius of the current device
   BorderRadius large(BuildContext context) =>
       BorderRadius.circular(_large[Style.index(context)]);
@@ -187,6 +199,7 @@ class PaddingTheme {
   static List<double> _small = [];
   static List<double> _medium = [];
   static List<double> _large = [];
+
   /// * A method to initialize the theme
   void init(Map<String, dynamic> padding) {
     _small = (padding['small'] as List)
@@ -203,9 +216,11 @@ class PaddingTheme {
   /// * Get the padding of the current device
   EdgeInsets small(BuildContext context) =>
       EdgeInsets.all(_small[Style.index(context)]);
+
   /// * Get the padding of the current device
   EdgeInsets medium(BuildContext context) =>
       EdgeInsets.all(_medium[Style.index(context)]);
+
   /// * Get the padding of the current device
   EdgeInsets large(BuildContext context) =>
       EdgeInsets.all(_large[Style.index(context)]);
@@ -216,6 +231,7 @@ class ShadowTheme {
   static List<BoxShadow> _small = [];
   static List<BoxShadow> _medium = [];
   static List<BoxShadow> _large = [];
+
   /// * A method to initialize the theme
   void init(Map<String, dynamic> shadow) {
     _small = (shadow['small'] as List).map((e) => fromJson(e)).toList();
@@ -225,9 +241,11 @@ class ShadowTheme {
 
   /// * Get the shadows of the current device
   List<BoxShadow> small(BuildContext context) => [_small[Style.index(context)]];
+
   /// * Get the shadows of the current device
   List<BoxShadow> medium(BuildContext context) =>
       [_medium[Style.index(context)]];
+
   /// * Get the shadows of the current device
   List<BoxShadow> large(BuildContext context) => [_large[Style.index(context)]];
 
