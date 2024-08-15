@@ -3,41 +3,23 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// # Theme Manager
-/// This package provides a customizable theme management solution for Flutter applications.
+/// * A class abstraction for customize the default theme
 class Style {
-  /// * A class abstraction for a color theme
   static TextTheme texts = TextTheme();
-
-  /// * A class abstraction for a color theme
   static ColorTheme colors = ColorTheme();
-
-  /// * A class abstraction for a fonts theme
   static Fonts fonts = Fonts();
-
-  /// * A class abstraction for a radius theme
   static RadiusTheme radius = RadiusTheme();
-
-  /// * A class abstraction for a buttons theme
   static ButtonStyle buttons = const ButtonStyle();
-
-  /// * A class abstraction for a theme theme
-  static List<dynamic> _theme = [];
-
-  /// * A class abstraction for a paddings theme
+  static Map<String, dynamic> _theme = {};
   static PaddingTheme paddings = PaddingTheme();
-
-  /// * A class abstraction for a shadows theme
   static ShadowTheme shadows = ShadowTheme();
-
-  /// * A method to initialize the theme with an index (of the theme array in the json file)
   static Future<void> init([int index = 0]) async {
     _theme = jsonDecode(await rootBundle.loadString("assets/theme.json"));
-    colors.init(_theme[index]['colors']);
-    texts.init(_theme[index]['texts']);
-    radius.init(_theme[index]['border']['radius']);
-    paddings.init(_theme[index]['padding']);
-    shadows.init(_theme[index]['shadows']);
+    colors.init(_theme['themes'][index]['colors']);
+    texts.init(_theme['themes'][index]['texts']);
+    radius.init(_theme['themes'][index]['border']['radius']);
+    paddings.init(_theme['themes'][index]['padding']);
+    shadows.init(_theme['themes'][index]['shadows']);
   }
 
   /// * Get the index of the current device
@@ -47,19 +29,16 @@ class Style {
   /// * 3: TV >= 992
   static int index(BuildContext context) {
     final size = MediaQuery.of(context).size.width;
-    if (size < 576) {
-      // Mobile
-      return 0;
+    final breakpoints = (_theme['breakpoints'] as List)
+        .map<double>((e) => double.parse(e.toString()))
+        .toList();
+    for (int i = 0; i < breakpoints.length; i++) {
+      if (size < breakpoints[i]) {
+        return i;
+      }
     }
-    if (size < 768) {
-      // Tablet
-      return 1;
-    }
-    if (size < 992) {
-      // Desktop
-      return 2;
-    }
-    return 3;
+
+    return breakpoints.length;
   }
 }
 
@@ -81,7 +60,6 @@ class TextTheme {
   List<double> _title = [];
   List<double> _biggest = [];
 
-  /// * A method to initialize the theme
   void init(Map<String, dynamic> texts) {
     final jsonData = texts['size'];
 
@@ -108,37 +86,30 @@ class TextTheme {
         .toList();
   }
 
-  /// * Get the font size of the current device
   double tiny(BuildContext context) {
     return _tiny[Style.index(context)];
   }
 
-  /// * Get the font size of the current device
   double small(BuildContext context) {
     return _small[Style.index(context)];
   }
 
-  /// * Get the font size of the current device
   double medium(BuildContext context) {
     return _medium[Style.index(context)];
   }
 
-  /// * Get the font size of the current device
   double large(BuildContext context) {
     return _large[Style.index(context)];
   }
 
-  /// * Get the font size of the current device
   double huge(BuildContext context) {
     return _huge[Style.index(context)];
   }
 
-  /// * Get the font size of the current device
   double title(BuildContext context) {
     return _title[Style.index(context)];
   }
 
-  /// * Get the font size of the current device
   double biggest(BuildContext context) {
     return _biggest[Style.index(context)];
   }
@@ -150,8 +121,6 @@ class ColorTheme {
   Color secondary = Colors.black;
   Color background = Colors.white;
   Color foreground = Colors.black;
-
-  /// * A method to initialize the theme
   void init(Map<String, dynamic> colors) {
     primary = (colors['primary'] as String).toColor();
     secondary = (colors['secondary'] as String).toColor();
@@ -160,15 +129,12 @@ class ColorTheme {
   }
 }
 
-/// * A class abstraction for a radius theme
 class RadiusTheme {
   RadiusTheme();
 
   List<double> _small = [];
   List<double> _medium = [];
   List<double> _large = [];
-
-  /// * A method to initialize the theme
   void init(Map<String, dynamic> radius) async {
     _small = (radius['small'] as List)
         .map((e) => double.parse(e.toString()))
@@ -181,26 +147,18 @@ class RadiusTheme {
         .toList();
   }
 
-  /// * Get the radius of the current device
   BorderRadius small(BuildContext context) =>
       BorderRadius.circular(_small[Style.index(context)]);
-
-  /// * Get the radius of the current device
   BorderRadius medium(BuildContext context) =>
       BorderRadius.circular(_medium[Style.index(context)]);
-
-  /// * Get the radius of the current device
   BorderRadius large(BuildContext context) =>
       BorderRadius.circular(_large[Style.index(context)]);
 }
 
-/// * A class abstraction for a paddings theme
 class PaddingTheme {
   static List<double> _small = [];
   static List<double> _medium = [];
   static List<double> _large = [];
-
-  /// * A method to initialize the theme
   void init(Map<String, dynamic> padding) {
     _small = (padding['small'] as List)
         .map((e) => double.parse(e.toString()))
@@ -213,49 +171,35 @@ class PaddingTheme {
         .toList();
   }
 
-  /// * Get the padding of the current device
   EdgeInsets small(BuildContext context) =>
       EdgeInsets.all(_small[Style.index(context)]);
-
-  /// * Get the padding of the current device
   EdgeInsets medium(BuildContext context) =>
       EdgeInsets.all(_medium[Style.index(context)]);
-
-  /// * Get the padding of the current device
   EdgeInsets large(BuildContext context) =>
       EdgeInsets.all(_large[Style.index(context)]);
 }
 
-/// * A class abstraction for a shadows theme
 class ShadowTheme {
   static List<BoxShadow> _small = [];
   static List<BoxShadow> _medium = [];
   static List<BoxShadow> _large = [];
-
-  /// * A method to initialize the theme
   void init(Map<String, dynamic> shadow) {
     _small = (shadow['small'] as List).map((e) => fromJson(e)).toList();
     _medium = (shadow['medium'] as List).map((e) => fromJson(e)).toList();
     _large = (shadow['large'] as List).map((e) => fromJson(e)).toList();
   }
 
-  /// * Get the shadows of the current device
   List<BoxShadow> small(BuildContext context) => [_small[Style.index(context)]];
-
-  /// * Get the shadows of the current device
   List<BoxShadow> medium(BuildContext context) =>
       [_medium[Style.index(context)]];
-
-  /// * Get the shadows of the current device
   List<BoxShadow> large(BuildContext context) => [_large[Style.index(context)]];
 
-  /// * Convert a json object to a [BoxShadow]
   BoxShadow fromJson(Map<String, dynamic> shadow) {
     return BoxShadow(
       color: (shadow['color'] as String).toColor(),
       offset: Offset(shadow['offset'][0], shadow['offset'][1]),
       blurRadius: shadow['radius'],
-      spreadRadius: shadow['spread'],
+      spreadRadius: double.parse(shadow['spread'].toString()),
     );
   }
 }

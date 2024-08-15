@@ -36,59 +36,233 @@ class MyApp extends StatelessWidget {
 Create a JSON file named `theme.json` in your `assets` folder. This file will define your themes. Here’s an example:
 
 ```json
-[
-  {
-    "colors": {
-      "primary": "#6200EA",
-      "secondary": "#03DAC6",
-      "background": "#FFFFFF",
-      "foreground": "#000000"
-    },
-    "texts": {
-      "size": {
-        "tiny": [12, 14, 16, 18],
-        "small": [14, 16, 18, 20],
-        "medium": [16, 18, 20, 22],
-        "large": [18, 20, 22, 24],
-        "huge": [20, 22, 24, 26],
-        "title": [24, 26, 28, 30],
-        "biggest": [32, 34, 36, 38]
+{
+  "breakpoints": [576, 768, 992],
+  "themes": [
+    {
+      "colors": {
+        "background": "#FFFFFF",
+        "foreground": "#323436",
+        "primary": "#991917",
+        "secondary": "#E1D5BB"
+      },
+      "texts": {
+        "size": {
+          "tiny": [6.0, 16.0, 20.0, 24.0],
+          "small": [8.0, 18.0, 24.0, 28.0],
+          "medium": [10.0, 22.0, 28.0, 36.0],
+          "large": [12.0, 28.0, 36.0, 42.0],
+          "huge": [14.0, 34.0, 42.0, 48.0],
+          "title": [16.0, 48.0, 56.0, 64.0],
+          "biggest": [30.0, 60.0, 72.0, 84.0]
+        }
+      },
+      "shadows": {
+        "small": [
+          {
+            "color": "#33000000",
+            "spread": 1.0,
+            "offset": [0.0, 0.0],
+            "radius": 8.0
+          },
+          {
+            "color": "#33000000",
+            "spread": 1,
+            "offset": [0.0, 0.0],
+            "radius": 8.0
+          },
+          {
+            "color": "#33000000",
+            "spread": 1.0,
+            "offset": [0.0, 0.0],
+            "radius": 8.0
+          },
+          {
+            "color": "#33000000",
+            "spread": 1.0,
+            "offset": [0.0, 0.0],
+            "radius": 8.0
+          }
+        ],
+        "medium": [
+          {
+            "color": "#33000000",
+            "spread": 1.0,
+            "offset": [0.0, 0.0],
+            "radius": 8.0
+          },
+          {
+            "color": "#33000000",
+            "spread": 1.0,
+            "offset": [0.0, 0.0],
+            "radius": 8.0
+          },
+          {
+            "color": "#33000000",
+            "spread": 1.0,
+            "offset": [0.0, 0.0],
+            "radius": 8.0
+          },
+          {
+            "color": "#33000000",
+            "spread": 1.0,
+            "offset": [0.0, 0.0],
+            "radius": 8.0
+          }
+        ],
+        "large": [
+          {
+            "color": "#33000000",
+            "spread": 1.0,
+            "offset": [0.0, 0.0],
+            "radius": 8.0
+          },
+          {
+            "color": "#33000000",
+            "spread": 1.0,
+            "offset": [0.0, 0.0],
+            "radius": 8.0
+          },
+          {
+            "color": "#33000000",
+            "spread": 1.0,
+            "offset": [0.0, 0.0],
+            "radius": 8.0
+          },
+          {
+            "color": "#33000000",
+            "spread": 1.0,
+            "offset": [0.0, 0.0],
+            "radius": 8.0
+          }
+        ]
+      },
+      "border": {
+        "radius": {
+          "small": [4.0, 6.0, 8.0, 12.0],
+          "medium": [8.0, 10.0, 12.0, 16.0],
+          "large": [12.0, 14.0, 16.0, 24.0]
+        }
+      },
+      "padding": {
+        "small": [4.0, 6.0, 8.0, 12.0],
+        "medium": [8.0, 10.0, 12.0, 16.0],
+        "large": [12.0, 14.0, 16.0, 24.0]
       }
     },
-    "border": {
-      "radius": {
-        "small": [4, 6, 8, 10],
-        "medium": [8, 10, 12, 14],
-        "large": [12, 14, 16, 18]
+    {
+      "colors": {
+        "background": "#FFFFFF",
+        "foreground": "#1E1F21",
+        "primary": "#661111",
+        "secondary": "#FAF4EB"
+      },
+      "texts": {
+        "size": {
+          "tiny": [6.0, 16.0, 20.0, 24.0],
+          "small": [8.0, 18.0, 24.0, 28.0],
+          "medium": [10.0, 22.0, 28.0, 36.0],
+          "large": [12.0, 28.0, 36.0, 42.0],
+          "huge": [14.0, 34.0, 42.0, 48.0],
+          "title": [16.0, 48.0, 56.0, 64.0],
+          "biggest": [30.0, 60.0, 72.0, 84.0]
+        }
+      },
+      "shadows": {
+        "small": [
+          {
+            "color": "#000000",
+            "spread": 5,
+            "offset": [0.0, 0.0],
+            "radius": 0.0
+          },
+          {
+            "color": "#000000",
+            "spread": 5,
+            "offset": [0.0, 0.0],
+            "radius": 0.0
+          },
+          {
+            "color": "#000000",
+            "spread": 5,
+            "offset": [0.0, 0.0],
+            "radius": 0.0
+          },
+          {
+            "color": "#000000",
+            "spread": 5,
+            "offset": [0.0, 0.0],
+            "radius": 0.0
+          }
+        ],
+        "medium": [
+          {
+            "color": "#000000",
+            "spread": 5,
+            "offset": [0.0, 0.0],
+            "radius": 0.0
+          },
+          {
+            "color": "#000000",
+            "spread": 5,
+            "offset": [0.0, 0.0],
+            "radius": 0.0
+          },
+          {
+            "color": "#000000",
+            "spread": 5,
+            "offset": [0.0, 0.0],
+            "radius": 0.0
+          },
+          {
+            "color": "#000000",
+            "spread": 5,
+            "offset": [0.0, 0.0],
+            "radius": 0.0
+          }
+        ],
+        "large": [
+          {
+            "color": "#000000",
+            "spread": 5,
+            "offset": [0.0, 0.0],
+            "radius": 0.0
+          },
+          {
+            "color": "#000000",
+            "spread": 5,
+            "offset": [0.0, 0.0],
+            "radius": 0.0
+          },
+          {
+            "color": "#000000",
+            "spread": 5,
+            "offset": [0.0, 0.0],
+            "radius": 0.0
+          },
+          {
+            "color": "#000000",
+            "spread": 5,
+            "offset": [0.0, 0.0],
+            "radius": 0.0
+          }
+        ]
+      },
+      "border": {
+        "radius": {
+          "small": [0.0, 0.0, 0.0, 0.0],
+          "medium": [0.0, 0.0, 0.0, 0.0],
+          "large": [0.0, 0.0, 0.0, 0.0]
+        }
+      },
+      "padding": {
+        "small": [4.0, 6.0, 8.0, 12.0],
+        "medium": [8.0, 10.0, 12.0, 16.0],
+        "large": [12.0, 14.0, 16.0, 24.0]
       }
-    },
-    "padding": {
-      "small": [4, 6, 8, 10],
-      "medium": [8, 10, 12, 14],
-      "large": [12, 14, 16, 18]
-    },
-    "shadows": {
-      "small": [{
-        "color": "#000000",
-        "offset": [0, 1],
-        "radius": 2,
-        "spread": 1
-      }],
-      "medium": [{
-        "color": "#000000",
-        "offset": [0, 2],
-        "radius": 4,
-        "spread": 2
-      }],
-      "large": [{
-        "color": "#000000",
-        "offset": [0, 3],
-        "radius": 6,
-        "spread": 3
-      }]
     }
-  }
-]
+  ]
+}
 ```
 
 ### 3. Applying Styles in Widgets
