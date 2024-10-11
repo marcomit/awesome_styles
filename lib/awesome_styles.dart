@@ -24,7 +24,11 @@ class Style {
   ///
   /// * The theme is stored in the [theme] attribute of the [Style] class.
   static Future<void> init(String path, [int index = 0]) async {
-    _theme = jsonDecode(await rootBundle.loadString("assets/theme.json"));
+    _theme = jsonDecode(await rootBundle.loadString(path));
+    change(index);
+  }
+
+  static change(int index) {
     colors.init(_theme['themes'][index]['colors']);
     texts.init(_theme['themes'][index]['texts']);
     radius.init(_theme['themes'][index]['border']['radius']);
