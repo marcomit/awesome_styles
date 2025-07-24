@@ -1,182 +1,386 @@
-# Custom Theme Manager for Flutter
+# Flutter Style Package
 
-This package provides a customizable theme management solution for Flutter applications. It enables easy setup and use of dynamic themes with responsive design support, allowing you to manage colors, text styles, paddings, shadows, and more from a single configuration file.
+A comprehensive theming system for Flutter applications that provides responsive design capabilities and customizable styling across different device types.
 
 ## Features
 
-- **Responsive Design**: Automatically adjusts theme parameters based on device size (Mobile, Tablet, Desktop, TV).
-- **Customizable Themes**: Load and apply themes from a JSON configuration file.
-- **Text and Color Management**: Easily manage text styles and colors.
-- **Button Styles**: Predefined button styles with support for different states and sizes.
-- **Shadow and Radius Customization**: Fine-tuned control over component shadows and border radii.
+- **Responsive Design**: Automatic adaptation to different screen sizes (Mobile, Tablet, Desktop, TV)
+- **JSON-based Configuration**: Define themes using external JSON files
+- **Multiple Theme Support**: Switch between different themes at runtime
+- **Comprehensive Styling**: Colors, typography, spacing, shadows, and button styles
+- **Extension Methods**: Convenient extensions for Text, ButtonStyle, and Color classes
+- **Breakpoint System**: Built-in responsive breakpoints for different device types
 
-## Getting Started
+## Installation
 
-### 1. Installation
-
-Add the package as a dependency in your `pubspec.yaml`:
+Add this package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  awesome_styles: ^1.0.0
+  flutter:
+    sdk: flutter
+  # Add your package name here
 ```
 
-Then, install the package using the command:
+## Quick Start
 
-```bash
-flutter pub get
-```
+### 1. Create a Theme JSON File
 
-### 2. Configuration
-
-Place your theme configuration file `theme.json` in the `assets` folder of your project.
-
-**Example of `theme.json`:**
+Create a `theme.json` file in your `assets` folder:
 
 ```json
-[
-  {
-    "colors": {
-      "primary": "#FF5733",
-      "secondary": "#C70039",
-      "background": "#FFFFFF",
-      "foreground": "#000000"
-    },
-    "texts": {
-      "size": {
-        "tiny": [12, 14, 16, 18],
-        "small": [14, 16, 18, 20],
-        "medium": [16, 18, 20, 22],
-        "large": [18, 20, 22, 24],
-        "huge": [20, 22, 24, 26],
-        "title": [24, 26, 28, 30],
-        "biggest": [28, 30, 32, 34]
+{
+  "breakpoints": [576, 768, 992],
+  "themes": [
+    {
+      "colors": {
+        "primary": "#3498db",
+        "secondary": "#2c3e50",
+        "background": "#ffffff",
+        "foreground": "#000000",
+        "info": "#17a2b8",
+        "success": "#28a745",
+        "warning": "#ffc107",
+        "danger": "#dc3545"
+      },
+      "texts": {
+        "size": {
+          "tiny": [10, 12, 14, 16],
+          "small": [12, 14, 16, 18],
+          "medium": [14, 16, 18, 20],
+          "large": [16, 18, 20, 22],
+          "huge": [18, 20, 22, 24],
+          "title": [20, 22, 24, 26],
+          "biggest": [24, 26, 28, 30]
+        }
+      },
+      "border": {
+        "radius": {
+          "small": [4, 6, 8, 10],
+          "medium": [8, 10, 12, 14],
+          "large": [12, 14, 16, 18]
+        }
+      },
+      "padding": {
+        "small": [8, 10, 12, 14],
+        "medium": [12, 14, 16, 18],
+        "large": [16, 18, 20, 22]
+      },
+      "shadows": {
+        "small": [
+          {
+            "color": "#00000025",
+            "offset": [0, 2],
+            "radius": 4,
+            "spread": 0
+          }
+        ],
+        "medium": [
+          {
+            "color": "#00000035",
+            "offset": [0, 4],
+            "radius": 8,
+            "spread": 0
+          }
+        ],
+        "large": [
+          {
+            "color": "#00000045",
+            "offset": [0, 8],
+            "radius": 16,
+            "spread": 0
+          }
+        ]
       }
-    },
-    "border": {
-      "radius": {
-        "small": [4, 6, 8, 10],
-        "medium": [6, 8, 10, 12],
-        "large": [8, 10, 12, 14]
-      }
-    },
-    "padding": {
-      "small": [4, 6, 8, 10],
-      "medium": [6, 8, 10, 12],
-      "large": [8, 10, 12, 14]
-    },
-    "shadows": {
-      "small": [
-        {
-          "color": "#000000",
-          "offset": [0, 1],
-          "radius": 3,
-          "spread": 0
-        }
-      ],
-      "medium": [
-        {
-          "color": "#000000",
-          "offset": [0, 2],
-          "radius": 6,
-          "spread": 1
-        }
-      ],
-      "large": [
-        {
-          "color": "#000000",
-          "offset": [0, 3],
-          "radius": 9,
-          "spread": 2
-        }
-      ]
     }
-  }
-]
+  ]
+}
 ```
 
-### 3. Initialization
-
-Initialize the theme in your `main.dart`:
+### 2. Initialize the Style System
 
 ```dart
+import 'package:flutter/material.dart';
+// Import your style package
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Style.init();  // Load theme from assets/theme.json
+  
+  // Initialize the style system
+  await Style.init('assets/theme.json', 0); // 0 is the theme index
+  
   runApp(MyApp());
 }
+```
 
-class MyApp extends StatelessWidget {
+### 3. Use the Style System
+
+```dart
+class MyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Style.colors.primary,
-        textTheme: TextTheme(
-          bodyText1: TextStyle(fontSize: Style.texts.medium(context)),
-        ),
-        buttonTheme: ButtonThemeData(
-          buttonColor: Style.colors.primary,
-        ),
+    return Container(
+      padding: Style.paddings.medium(context),
+      decoration: BoxDecoration(
+        color: Style.colors.background,
+        borderRadius: Style.radius.medium(context),
+        boxShadow: Style.shadows.medium(context),
       ),
-      home: MyHomePage(),
+      child: Column(
+        children: [
+          "Hello World".title(context).primary.bold,
+          "Subtitle text".medium(context).secondary,
+          ElevatedButton(
+            style: Style.buttons.primary().medium(context),
+            onPressed: () {},
+            child: Text("Click me"),
+          ),
+        ],
+      ),
     );
   }
 }
 ```
 
-### 4. Usage
+## API Reference
 
-#### **Accessing Colors and Text Styles:**
+### Style Class
+
+Main class that provides access to all theming components.
+
+#### Static Properties
+
+- `Style.colors` - Access to color theme
+- `Style.texts` - Access to text sizing
+- `Style.fonts` - Access to font families
+- `Style.radius` - Access to border radius values
+- `Style.paddings` - Access to padding values
+- `Style.shadows` - Access to shadow configurations
+- `Style.buttons` - Access to button styles
+
+#### Static Methods
+
+- `Style.init(String path, [int index])` - Initialize theme from JSON file
+- `Style.change(int index)` - Switch to different theme
+- `Style.index(BuildContext context)` - Get current device breakpoint index
+- `Style.getValue<T>(List<T> values, BuildContext context)` - Get responsive value
+
+### Colors
+
+Access theme colors:
 
 ```dart
-Text(
-  'Hello World',
-  style: TextStyle(
-    fontSize: Style.texts.large(context),
-    color: Style.colors.primary,
-  ),
-);
+Style.colors.primary      // Primary color
+Style.colors.secondary    // Secondary color
+Style.colors.background   // Background color
+Style.colors.foreground   // Foreground color
+Style.colors.info         // Info color
+Style.colors.success      // Success color
+Style.colors.warning      // Warning color
+Style.colors.danger       // Danger color
 ```
 
-#### **Button Styles:**
+### Typography
+
+Get responsive text sizes:
+
+```dart
+Style.texts.tiny(context)     // Smallest text size
+Style.texts.small(context)    // Small text size
+Style.texts.medium(context)   // Medium text size
+Style.texts.large(context)    // Large text size
+Style.texts.huge(context)     // Huge text size
+Style.texts.title(context)    // Title text size
+Style.texts.biggest(context)  // Biggest text size
+```
+
+### Fonts
+
+Access font families:
+
+```dart
+Style.fonts.light     // Light font weight
+Style.fonts.bold      // Bold font weight
+Style.fonts.ultra     // Ultra bold font weight
+Style.fonts.cursive   // Cursive font family
+```
+
+### Spacing
+
+Get responsive padding:
+
+```dart
+Style.paddings.small(context)   // Small padding
+Style.paddings.medium(context)  // Medium padding
+Style.paddings.large(context)   // Large padding
+```
+
+### Border Radius
+
+Get responsive border radius:
+
+```dart
+Style.radius.small(context)   // Small border radius
+Style.radius.medium(context)  // Medium border radius
+Style.radius.large(context)   // Large border radius
+```
+
+### Shadows
+
+Get responsive shadows:
+
+```dart
+Style.shadows.small(context)   // Small shadow
+Style.shadows.medium(context)  // Medium shadow
+Style.shadows.large(context)   // Large shadow
+```
+
+## Extension Methods
+
+### String Extensions
+
+Convert strings to styled Text widgets:
+
+```dart
+"Hello".txt                    // Basic Text widget
+"Hello".bold                   // Bold text
+"Hello".light                  // Light text
+"Hello".primary                // Primary color text
+"Hello".small(context)         // Small sized text
+```
+
+### Text Extensions
+
+Chain styling methods on Text widgets:
+
+```dart
+Text("Hello")
+  .bold
+  .primary
+  .medium(context)
+```
+
+### ButtonStyle Extensions
+
+Create styled buttons:
 
 ```dart
 ElevatedButton(
-  style: Style.buttons.primary(),
+  style: Style.buttons
+    .primary()              // Primary color button
+    .medium(context),       // Medium size
+  child: Text("Button"),
   onPressed: () {},
-  child: Text('Primary Button'),
-);
+)
+
+// Available button styles:
+.primary()      // Primary colored button
+.secondary()    // Secondary colored button
+.info()         // Info colored button
+.success()      // Success colored button
+.warning()      // Warning colored button
+.danger()       // Danger colored button
+.outline()      // Outline button
+.disabled()     // Disabled button
+
+// Available button sizes:
+.small(context)   // Small button
+.medium(context)  // Medium button
+.large(context)   // Large button
 ```
 
-#### **Responsive Radius and Padding:**
+### Color Extensions
+
+Manipulate colors:
 
 ```dart
-Container(
-  padding: Style.paddings.medium(context),
-  decoration: BoxDecoration(
-    borderRadius: Style.radius.medium(context),
-  ),
-  child: Text('Responsive Container'),
-);
+Color myColor = Style.colors.primary;
+Color darker = myColor.darken(0.2);    // Darken by 20%
+Color lighter = myColor.lighten(0.3);  // Lighten by 30%
 ```
 
-## Documentation
+## Responsive Breakpoints
 
-For detailed information on the available options and additional configurations, please refer to the inline comments in the code and the provided example JSON file.
+The system uses four breakpoints by default:
+
+- **Mobile**: < 576px (index 0)
+- **Tablet**: 576px - 767px (index 1)
+- **Desktop**: 768px - 991px (index 2)
+- **TV**: ≥ 992px (index 3)
+
+You can customize these breakpoints in your theme JSON file.
+
+## Multiple Themes
+
+Support multiple themes by defining them in your JSON:
+
+```dart
+// Switch to theme at index 1
+Style.change(1);
+```
 
 ## Examples
 
-You can find a complete example in the `example/` directory of this repository. Run it using:
+### Creating a Card Component
 
-```bash
-flutter run example/lib/main.dart
+```dart
+Widget buildCard(BuildContext context) {
+  return Container(
+    padding: Style.paddings.large(context),
+    decoration: BoxDecoration(
+      color: Style.colors.background,
+      borderRadius: Style.radius.medium(context),
+      boxShadow: Style.shadows.large(context),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        "Card Title".title(context).primary.bold,
+        SizedBox(height: 8),
+        "This is the card content that adapts to different screen sizes."
+            .medium(context)
+            .foreground,
+        SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ElevatedButton(
+              style: Style.buttons.primary().small(context),
+              onPressed: () {},
+              child: Text("Action"),
+            ),
+            ElevatedButton(
+              style: Style.buttons.outline().small(context),
+              onPressed: () {},
+              child: Text("Cancel"),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
 ```
 
-## Contribution
+### Responsive Layout
 
-Contributions are welcome! If you encounter any issues or have suggestions for improvements, feel free to open an issue or submit a pull request.
+```dart
+Widget responsiveWidget(BuildContext context) {
+  final deviceIndex = Style.index(context);
+  
+  return Container(
+    padding: Style.paddings.medium(context),
+    child: deviceIndex < 2 
+      ? Column(children: widgets)  // Mobile/Tablet: vertical layout
+      : Row(children: widgets),    // Desktop/TV: horizontal layout
+  );
+}
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This package is distributed under the MIT License. See `LICENSE` for more information.
+This project is licensed under the MIT License - see the LICENSE file for details.
